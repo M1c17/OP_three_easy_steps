@@ -1,0 +1,107 @@
+
+As always, the notes I have are found in NOTES.pdf
+(your mileage, as always, may vary)
+
+This is a relatively light lecture, in which you have a few small objectives:
+
+- Remind them of how a computer works
+  (i.e., fetch, decode, execute)
+
+- Show them some of what the OS does
+  through REAL CODE examples, as seen here:
+  (yes, we just plug in a laptop and run these examples!)
+  The goal here is to show some interesting things the OS does,
+  without getting into TOO MUCH detail about how it all works
+  (that is for the class, after all)
+
+----
+
+EXAMPLES:
+
+cpu.c: just something you can run one instance of first, and
+       then a bunch of at once, in order to show that the CPU
+       can be VIRTUALIZED. Amazingly, the OS can make it seem
+       like you have as many CPUs as you need!
+       e.g., prompt> cpu A
+
+
+mem.c: same thing but showing how you can seemingly access
+       the "same" memory location from different programs,
+       and yet they each seem to have their own copy. Yes,
+       the OS can VIRTUALIZE memory too, providing each
+       running program with the illusion of its own memory.
+
+       A little pain to get this to work if the system you
+       are using has address-space randomization; if so, 
+       run it in the debugger (gdb) which should turn off
+       ASLR and make it easy for two separate 'mem' processes
+       to use the same virtual addresses.
+
+       For example, on mac OS X, the following sequence is useful:
+
+       prompt> gdb mem
+       ...
+       (gdb) set disable-aslr on
+       (gdb) run 0
+       ...
+
+       Also, according to:
+         stackoverflow.com/questions/23897963/documented-way-to-disable-aslr-on-os-x
+       just link as follows:
+         gcc -o mem mem.c -Wall -Wl,-no_pie
+
+       A different set of Linux methods, as suggested by Giovanni Lagorio:
+
+       Under Linux you can disable ASLR, without using a debugger, in (at
+       least) two ways:
+       1) Use the command setarch to run a process with ASLR disabled; I
+       typically run a bash, with which I can execute examples, like this:
+       setarch $(uname --machine) --addr-no-randomize /bin/bash
+       2) Writing 0 into  /proc/sys/kernel/randomize_va_space; you need to be
+       root to do this and this change has (a non-permament) effect on the
+       whole system, which is something you probably don't want. I use this
+       one only inside VMs.
+      
+threads.v0.c:
+       shows that a concurrent program, when run without locks,
+       does weird stuff. explain how the program should work,
+       and then ask the students what should happen. Then run it
+       with increasing loop counts until a weird answer turns up!
+       Explain a bit what is going on; show the disassembled 
+       code (using objdump on linux, or otool on mac) to show
+       the load/add/store non-atomic sequence.
+
+threads.v1.c:
+       this is the fixed version with locks. Give a high-level
+       overview of what is going on here.
+
+io.c:  I run this on a Mac, and use a dtrace script to show
+       how this little program, which does so little to access
+       a file from the perspective of C, actually leads to hundreds
+       and hundreds of calls within the OS to commit the data to
+       disk. The trace is included if you just want to look at
+       that (iotrace.out), as well as the dtrace code (trace-io.d).
+       Run the dtrace (on a mac) with 'dtrace -s trace-io.d'
+       
+----
+
+After the examples, it is nice to discuss the OS's major role as providing a 
+VIRTUAL MACHINE and all this entails. Present some of the key issues
+(efficiency, protection, etc.).
+
+After this, go over the course overview:
+- Major themes
+- Practical things they will learn
+- What the course is about:
+  lectures, projects (hopefully!), other logistics
+
+End with a little history:
+- How OSes developed over the years
+  From mainframes where everything was batch ...
+  To mini-computer era where multiprogramming, etc., happened ...
+  To PC era ...
+  To OS everywhere (even in phones)
+- Can add some technical details here
+  (but there is not a big need)
+
+

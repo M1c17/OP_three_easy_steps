@@ -1,0 +1,76 @@
+
+Notes, as usual, in NOTES.pdf.
+
+Start by reviewing the ticket lock, and re-emphasizing the point about
+fairness. A nice point to discuss here is whether or not the ticket lock is
+susceptible to overflow: it actually is, IFF there are a HUGE NUMBER of
+threads waiting at a particular point (which is infeasible, of course). But a
+nice thing for students to think through (the simpler case of the ticket value
+wrapping around is NOT an issue, and therefore also nice to discuss).
+[if you do this, make sure to bring the handout again of the ticket lock, or
+at least project it]
+
+Segues into a blackboard discussion of how to evaluate locks and whether they
+are good or not. Some criteria include performance high under contention (many
+threads per CPU each contending), performance under low contention (say just 1
+thread per CPU, with less attempts at lock acquisition), and fairness (can a
+thread be starved?). Good to put these on the board.
+
+To address these problems, we'll need some new primitives, this time at the OS
+level. The first to discuss is yield(), the simple act of releasing the CPU
+while remaining in the ready state (e.g., moving to the back of the
+round-robin queue). Show the basic spin lock again (perhaps on the board,
+probably no need for a handout again), then ask the class: how can we use
+yield() to improve this lock? They should be able to figure out that yield()
+can improve performance under contention, by immediately letting go of the CPU
+when waiting for a lock, instead of spinning through an entire time slice;
+thus, the case where the lock holder is interrupted only takes 
+O(threads * context switch) instead of O(threads * time slice).
+But also discuss the problem with yield (the students should be able to figure
+this out too -- still no guarantees about lock fairness).
+
+Then describe two new primitives (park and unpark, from Solaris). With these
+described on the board, pass them the queued lock handout
+(threads-queued-lock.c or .pdf). Then it's time to try to figure out what this
+rather complex lock is doing. The NOTES.pdf shows some basic questions to
+answer; work through them all, plus the basic flow of the lock. The hardest
+one is last, that there is still a race condition in the lock because of the
+chance of interruption between lock->guard being set to zero and park() (the
+wakeup/waiting race). Add the setpark() primitive (all described in the book)
+as a solution.
+
+At this point, the students should have a good idea how locks work, and how
+they're built. Unfortunately, there is one more basic synchronization
+primitive to discuss; it's not just about locking!
+
+As per the first page of NOTES.pdf, define a condition variable, and its basic
+operations. Put this up on the board for reference.
+
+Show some code on a laptop: start with main-join-begin.c, which has the basic
+join problem (a parent, in this case, waiting for a child thread to finish
+before continuing itself). The first solution (in main-join-try1.c) is done by
+spinning, but this is wasteful! (show the code to the students, and let them
+figure this out)
+
+How can one use a CV to help?
+
+A bad approach is found in main-join-try2.c, which tries to use conditions,
+etc., but doesn't properly use locking. This emphasizes what is going on with
+wait (which assumes a held lock, which is released as part of the wait).
+
+Another bad example is main-join-try3.c, which gets the locking added
+correctly, but does not uses a state variable to indicate anything is actually
+done or not. Have them think about why this is problematic.
+
+Finally, show the working main-join-try4.c. Talk them through why it all makes
+sense. 
+
+If you have time, it is not bad to introduce the producer/consumer problem
+WITHOUT solving it -- that will be the focus of the entire next lecture.
+
+
+
+
+
+
+

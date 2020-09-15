@@ -1,0 +1,332 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Title: vm-paging-intro-eg-new
+%%Creator: zplot version:python version 1.41 script:/Users/remzi/Projects/z-plot/zplot/zplot.pyc host:work-imac.local
+%%CreationDate: 11:35:40 06/07/19 CDT
+%%DocumentFonts: (atend)
+%%BoundingBox: 0 0 345.0 40.0
+%%Orientation: Portrait
+%%EndComments
+% zdraw dictionary
+/zdict 256 dict def
+zdict begin
+/cpx 0 def
+/cpy 0 def
+/reccp {currentpoint /cpy exch def /cpx exch def} bind def
+/m {moveto} bind def
+/l {lineto} bind def
+/mr {rmoveto} bind def
+/lr {rlineto} bind def
+/np {newpath} bind def
+/cp {closepath} bind def
+/st {stroke} bind def
+/fl {fill} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/slw {setlinewidth} bind def
+/slc {setlinecap} bind def
+/slj {setlinejoin} bind def
+/sc  {setrgbcolor} bind def
+/sd  {setdash} bind def
+/lshow {show reccp} def
+/rshow {dup stringwidth pop neg 0 mr show reccp} def
+/cshow {dup stringwidth pop -2 div 0 mr show reccp} def
+end
+zdict begin
+gs
+(Helvetica) findfont 9 scalefont setfont
+20.0 32.0 m
+-5.004 0.0 mr
+(31) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+207.0 32.0 m
+-5.004 0.0 mr
+(12) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+223.0 32.0 m
+-5.004 0.0 mr
+(11) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+240.0 32.0 m
+-2.502 0.0 mr
+(9) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+250.0 32.0 m
+-2.502 0.0 mr
+(8) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+260.0 32.0 m
+-2.502 0.0 mr
+(7) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+270.0 32.0 m
+-2.502 0.0 mr
+(6) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+280.0 32.0 m
+-2.502 0.0 mr
+(5) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+290.0 32.0 m
+-2.502 0.0 mr
+(4) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+300.0 32.0 m
+-2.502 0.0 mr
+(3) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+310.0 32.0 m
+-2.502 0.0 mr
+(2) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+320.0 32.0 m
+-2.502 0.0 mr
+(1) lshow
+gr
+gs
+(Helvetica) findfont 9 scalefont setfont
+330.0 32.0 m
+-2.502 0.0 mr
+(0) lshow
+gr
+gs
+np
+0.5 slw
+15.0 10.0 m
+15.0 30.0 l
+215.0 30.0 l
+215.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 8 scalefont setfont
+115.0 20.0 m
+-8.0 -2.88 mr
+(PFN) lshow
+gr
+gs
+np
+0.5 slw
+0.83 0.83 0.83 sc
+215.0 10.0 m
+215.0 30.0 l
+245.0 30.0 l
+245.0 10.0 l
+cp
+fl
+st
+gr
+gs
+np
+0.5 slw
+215.0 10.0 m
+215.0 30.0 l
+245.0 30.0 l
+245.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 8 scalefont setfont
+230.0 20.0 m
+-0.0 -2.88 mr
+() lshow
+gr
+gs
+np
+0.5 slw
+245.0 10.0 m
+245.0 30.0 l
+255.0 30.0 l
+255.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+250.0 20.0 m
+gs
+90.0 rotate
+-2.723 -2.52 mr
+(G) lshow
+gr
+gr
+gs
+np
+0.5 slw
+255.0 10.0 m
+255.0 30.0 l
+265.0 30.0 l
+265.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+260.0 20.0 m
+gs
+90.0 rotate
+-6.8075 -2.52 mr
+(PAT) lshow
+gr
+gr
+gs
+np
+0.5 slw
+265.0 10.0 m
+265.0 30.0 l
+275.0 30.0 l
+275.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+270.0 20.0 m
+gs
+90.0 rotate
+-2.527 -2.52 mr
+(D) lshow
+gr
+gr
+gs
+np
+0.5 slw
+275.0 10.0 m
+275.0 30.0 l
+285.0 30.0 l
+285.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+280.0 20.0 m
+gs
+90.0 rotate
+-2.3345 -2.52 mr
+(A) lshow
+gr
+gr
+gs
+np
+0.5 slw
+285.0 10.0 m
+285.0 30.0 l
+295.0 30.0 l
+295.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+290.0 20.0 m
+gs
+90.0 rotate
+-7.3885 -2.52 mr
+(PCD) lshow
+gr
+gr
+gs
+np
+0.5 slw
+295.0 10.0 m
+295.0 30.0 l
+305.0 30.0 l
+305.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+300.0 20.0 m
+gs
+90.0 rotate
+-7.777 -2.52 mr
+(PWT) lshow
+gr
+gr
+gs
+np
+0.5 slw
+305.0 10.0 m
+305.0 30.0 l
+315.0 30.0 l
+315.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+310.0 20.0 m
+gs
+90.0 rotate
+-5.8345 -2.52 mr
+(U/S) lshow
+gr
+gr
+gs
+np
+0.5 slw
+315.0 10.0 m
+315.0 30.0 l
+325.0 30.0 l
+325.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+320.0 20.0 m
+gs
+90.0 rotate
+-6.804 -2.52 mr
+(R/W) lshow
+gr
+gr
+gs
+np
+0.5 slw
+325.0 10.0 m
+325.0 30.0 l
+335.0 30.0 l
+335.0 10.0 l
+cp
+st
+gr
+gs
+(Helvetica) findfont 7 scalefont setfont
+330.0 20.0 m
+gs
+90.0 rotate
+-2.3345 -2.52 mr
+(P) lshow
+gr
+gr
+% zplot .eps epilogue
+end
+showpage
+%%Trailer
+%%DocumentFonts: Helvetica

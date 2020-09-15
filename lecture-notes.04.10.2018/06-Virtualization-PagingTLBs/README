@@ -1,0 +1,29 @@
+
+Blackboard again; see NOTES.pdf.
+
+Review
+
+- Paging: why is it awesome?
+- Paging: why is it bad? (too slow, PTs too big)
+
+Today
+- Gonna make paging FAST!
+- How? Hardware support w/ the poorly named TLB!
+  (should be an "address translation cache" or ATC but oh well!)
+
+Some important points to make:
+- Key to understand that contents of PTE are not the same as contents of TLB
+  (e.g., valid bit is a good example: in TLB it refers to whether there is
+   a valid translation in a particular TLB slot; in the PTE it refers to
+   whether that page of the address space is legal for the process to access)
+
+- Key to understand "H/W managed" approach
+  How hardware does all the work
+  How OS has to conform to H/W-defined page table structure
+
+- Key to understand "S/W managed" approach
+  Adds some complexity to OS
+  Removes much from hardware
+  Adds new instructions too
+
+

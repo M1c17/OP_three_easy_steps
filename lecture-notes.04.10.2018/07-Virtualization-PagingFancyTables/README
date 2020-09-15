@@ -1,0 +1,35 @@
+
+Notes in NOTES.pdf as usual.
+
+First establish again how big (linear) page tables can become. Do some simple
+example, or let them do one for you. Point out how bad it is even for 32-bit
+address spaces, and then talk about the huge amounts of memory needed for
+larger address spaces. Also worth asking about why we want such large address
+spaces; get the students to answer this.
+
+The rest of class is then explaining some ideas that people have used to
+reduce page table size:
+
+- Hybrid of segmentation and paging, i.e., one linear page table per segment. 
+Do a detailed example that starts with the full virtual address and shows how
+to use (for example) the top bits to select which segment, the next so many
+bits to select the PTE, etc. Talk about the pros/cons.
+
+- Multi-level page table. Work through a detailed example (one is shown on the
+second page of the notes). Usually we use very small examples (e.g., a 1 KB
+virtual address space, with 16 byte page size) as then you can draw the whole
+thing on the board (but remember to stress how these sizes are ridiculously
+small!). The nice thing there is you can draw both the full linear table
+(almost) as well as the multi-level one. Lots of nice questions to ask here,
+e.g, in what case does the multi-level actually use more memory? (how much
+more memory can it use?) Further, what is the fewest number of pages that the
+address space can use and still cause more memory usage in the page table than
+a simple linear table? Also it's nice to ask about when one would need a
+structure that has more than two levels and work through that a bit if you
+have time.
+
+- Sometimes there is time for other discussions, like about inverted page
+tables, etc. I save this sort of thing for the end, and do it in less detail.
+
+
+

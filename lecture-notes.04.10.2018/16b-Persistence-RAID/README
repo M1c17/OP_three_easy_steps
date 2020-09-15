@@ -1,0 +1,123 @@
+
+This lecture (or half lecture) is a quick set of visualizations of how some of
+the RAID levels operate.
+
+Intro the simulator first, with just one request and STRIPING:
+
+./example-stripe-one-request.csh
+
+Explain timer (upper left), read/write counters (bottom), show disk head
+(black boxes next to each "disk") and general operation: SEEK + TRANSFER
+(rotation not modeled).
+
+Now, remind what the RAID levels are, starting with simple STRIPING.  First,
+just some random requests on a STRIPING raid:
+
+./example-stripe-random-reads.py
+
+Recall: striping isn't so great, because there is NO REDUNDANCY.  However,
+serves as a good baseline for comparing costs, performance.
+
+Now, show the same for MIRRORING raid:
+
+./example-mirror-random-reads.py
+
+Total time taken in each case is about 600.
+
+But now, do the same for writes:
+
+./example-stripe-random-writes.py
+./example-mirror-random-writes.py
+
+In this case, the striping one finishes writes in the same time (each logical
+IO induces one physical IO), whereas the mirroring system induces TWO physical
+writes for each logical write, thus halving the bandwidth of the entire
+system.
+
+All of this is true despite the fact that the LATENCY of a single write is
+similar in each system (you can examine the LATENCY average shown in the
+previous examples).
+
+What about sequential IO performance? Well, it is generally easier to extract
+sequential performance from a striping system:
+
+./example-stripe-seq-reads.csh
+./example-mirror-seq-reads.csh
+
+To understand that last one better, run it with slow-motion:
+
+./example-mirror-seq-reads-slomo.csh
+
+The next goal was to REDUCE overheads of MIRRORING (too many copies just to
+tolerate single fault). Can we use more advanced encodings?
+
+Basic idea: PARITY. Explain. This is called RAID Level 4.
+
+Show performance of RANDOM READS first:
+
+./example-raid4-random-reads.csh
+
+What can you see, as compared to striping? Clear problem is that 
+parity disk is not used during normal reads. 
+
+Writes are more interesting: start with sequential. Show the flow of what
+happens: you receive a bunch of logical writes, the RAID controller computes
+parity and then writes out all of them. This is called a FULL STRIPE write,
+and it is the BEST CASE for RAID-4 writing.
+
+./example-raid4-full-stripe-writes.csh
+
+But what about RANDOM WRITES? This is the real problem for RAID 4.
+
+First, let's understand what ONE WRITE must do. General case: Must be
+able to FIGURE OUT parity. Usually, done by the following method:
+
+Read old parity AND Read old data (IO)
+Compute new parity:
+  Compare new data and old; 
+  wherever they differ, FLIP bit from old parity into new
+  wherever they are the same, KEEP same bit from old parity into the new
+Write new data AND Write new parity (IO)
+
+./example-raid4-single-write.csh
+
+Conclude: each logical write induces FOUR physical IOs (2 reads, 2 writes)
+
+But NOW the real problem: Many concurrent random writes.
+
+./example-raid4-random-writes.csh
+
+The PARITY DISK bottleneck! ALL writes must use the parity disk TWICE, and
+thus total bandwidth of the entire RAID is limited by the parity disk. 
+There is no effective parallelism!
+
+Finally, a solution: RAID-5, or rotated parity. By spreading parity around, we
+can combat this problem (somewhat), and improve parallelism and performance.
+
+Simple example first:
+./example-raid5-simple.csh
+
+Random reads next:
+
+./example-raid5-random-reads.csh
+
+This shows how ALL disks are used - small but nice improvement.
+
+Then random writes:
+
+./example-raid5-random-writes.csh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

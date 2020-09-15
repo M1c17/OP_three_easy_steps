@@ -1,0 +1,54 @@
+
+As always, my notes etc. are found in NOTES.pdf
+
+This lecture does a few things:
+
+- First, review again all the stuff you learned in the previous class, talking
+  about critical sections, mutual exclusion, etc., and talking about the core
+  problem of uncontrolled scheduling (interrupts happening at any moment). 
+
+- Then, use a detailed code example (found in threads-list-simple.c) to
+  illustrate how race conditions don't only occur for the types of simple
+  examples we've been looking at so far (e.g., counters) but also for complex
+  data types (of course!). Let them stare at the code (often a good thing to
+  handout) and reason about how locks need to be added, and what can happen if
+  you don't add locks to the list code (some nice list pictures with orphaned
+  list nodes is worth drawing on the board)
+
+  Make sure to remind them of the right mindset to have: YOU ARE THE EVIL
+  SCHEDULER! Try to make the code break simply by running things at the wrong
+  time! This is worth repeating throughout.
+
+- Look at hash.c (which uses the list code) and see if they can think about
+  how to add a lock to make it work. Then get them to think about how to use
+  more than one lock (an array of locks) to make the hash table more
+  concurrent. This brings up a general philosophy of first getting locking
+  right for correctness, then later thinking about
+  performance/concurrency. 
+
+- Then you're onto the problem of building locks. Using either
+  HandoutOnLocks.pdf (there is also the Pages source for this) or the
+  combination of threads-hw-primitives-1.pdf/threads-hw-primitives-2.pdf as
+  handouts for the class, explain the first hardware primitive, and let the
+  students build a lock out of this (the HandoutOnLocks shows nicely what code
+  they are filling in, a generic set of init/lock/unlock routines, with a
+  struct for the lock). The test-and-set one is just review, but it is good to
+  make them use it. Compare-and-swap is not much different, but again good to
+  let them work through it with pen/paper. Load-linked/Store-conditional is
+  weirder, and thus a nice problem. In each case, make sure to explain the
+  primitives carefully, but then let them build the lock.
+
+- At this point, it might be nice to discuss some of the problems with the
+  current locks. See if the students can come up with these critiques. In
+  particular, what happens when one thread grabs a lock but is interrupted,
+  and there are many other threads sitting there trying to spin and grab the
+  lock? Also, importantly, see if they can come up with fairness as a problem:
+  no thread is ever guaranteed to be able to obtain the lock under
+  contention. 
+
+- The last case brings out a nice solution to fairness (but don't tell the
+  students this!), using fetch-and-add to build a ticket lock. Explain what
+  fetch-and-add does, and then let them stare at the ticket lock and try to
+  figure it out. Then walk through the code and explain it (or have a student
+  do so, even better!)
+

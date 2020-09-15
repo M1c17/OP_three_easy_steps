@@ -1,0 +1,2 @@
+First line
+child writes a line

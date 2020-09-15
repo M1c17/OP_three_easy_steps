@@ -1,0 +1,82 @@
+
+In the concurrency part of the course, I don't use the blackboard nearly as
+much, opting instead to plug in a laptop and project what I am doing in the
+terminal to the class.
+
+This lecture is the first such example.
+
+I usually print out the CLASS-GUIDE (same thing is found in NOTES.pdf) and
+bring it with me to be able to see what I want to do.
+
+Start the class on the board with a discussion of what is a thread. Because
+you've already explained to them what virtualizing the CPU and memory is, this
+should be easy (relatively) -- basically, just multiple "programs" running in
+the same address space, working together (loosely or more closely) to solve
+some problem. Describe what is still private per thread (the registers!) and
+what isn't (the address space). You should spend a fair amount of time making
+sure people understand what you're talking about here, and motivating why
+people use threads.
+
+Then, there are a series of codes to look at:
+
+main-thread-0
+- Spend the most time on this one! Show what the code does (plenty to talk
+about here, as you are introducing the interfaces to creating threads, etc.),
+and then run it (this is a reprise of the first day). Show how it gives weird
+answers when you run for long enough. Then look at the assembly code in
+detail, and walk through exactly why the code can go wrong, even on a single
+processor. There is an example of how to walk through such a thing in
+"main-trace.txt"; this is worth doing in detail. This example also gives you
+the opportunity to bring in the major terms used in this part of the course:
+non-deterministic (indeterminate) code, critical sections, race conditions,
+and the need for mutual exclusion. Also a good chance to talk about the power
+of atomicity; how one can view as a single instruction as a powerful atomic
+update of state, but that a short instruction sequence can be interrupted, is
+thus not atomic, and is at the heart of the problem.
+
+Make sure to tell them of the right mindset to have: YOU ARE THE EVIL
+SCHEDULER! Try to make the code break simply by running things at the wrong
+time! This is worth repeating over and over. 
+
+main-thread-1
+- Shows how to fix the problem with these things called locks (or
+mutex's). Show the code works, but it's kind of slow (you can time it from the
+command line).
+
+main-thread-2
+- Show this is a faster version, using more coarse-grained locks. They should
+be able to guess this solution -- make them figure out how to do this switch
+(don't just bring up the code -- in fact, I usually just copy main-thread-0.c
+to main.c and just edit that to get to -1 and -2).
+
+main-thread-3
+- This one gives a broken but intuitive attempt at answering the question:
+just what does a lock do? Basically, the code tries to do a test-and-set, but
+does not do so atomically. Have the students stare at the code, explain the
+intuition, and then see if they can figure out why it doesn't work. 
+
+In cases like this, I make sure that I let the students talk to each other,
+and discuss for a minute or two, and then I let someone answer it. Just
+letting someone answer right away removes the opportunity for some (most?) to
+think it through at their own pace.
+
+main-thread-4
+- Now finally give them a good hardware primitive to build on. Here is a nice
+place for some philosophy -- talking about how you need a little bit more
+powerful instructions from the hardware. Some history here is nice, as these
+types of instructions have been in hardware forever, dating at least as far
+back as some early Burroughs machines. Tell them what the exchange, or
+test-and-set, instruction does (atomically returns the old value while setting
+the new value), and see if they can figure out how to use it to build a
+lock. Again give them some time!
+
+main-thread-5
+- A solution that uses the exchange primitive to build a lock. All of this
+should work a-ok on linux/x86 with gcc! On other platforms, you'll have to do
+some work.
+
+Conclude with a little note on why we study this in OS class. The OS was the
+first concurrent program! 
+
+
+

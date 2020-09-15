@@ -1,0 +1,82 @@
+
+Two options here:
+
+---------------------------------------------------------------------------
+
+Classic BLACKBOARD::
+
+Notes in NOTES.pdf 
+
+Usually we'll begin by finishing up semaphores - it is hard to get through all
+of that semaphore stuff in one lecture! See the previous README, etc., for
+more on that.
+
+For the deadlock part, just use the blackboard.
+
+Start with some intuition; there is the great example from wikipedia about the
+kansas law that mandates that if a train sees another train about to cross, it
+should stop and wait for the other train. Deadlock built into law!
+
+Students who drive also have an intuition about weird deadlock possibilities
+with things like the "yield to your right" stop sign rule of thumb; it doesn't
+quite work if all four cars arrive at once.
+
+Then define the conditions for deadlock from the old classic paper: mutex,
+hold+wait, no preempt, circular wait.
+
+Basically, once you have these one the board, the rest of the class is just
+trying to remove one of these necessary conditions from arising.
+
+The NOTES.pdf covers the rough outline pretty well; the book chapter fills in
+much the same info in slightly longer form. Would love to have suggestions
+for a better deadlock chapter! (I've always felt like this one is too thin)
+
+---------------------------------------------------------------------------
+
+Alternative on COMPUTER::
+
+Instead of using the blackboard (or perhaps, in addition)
+show the problems with real code.
+
+two-locks.c
+- shows how two locks can cause problems (deadlock)
+
+two-locks-print.c 
+- makes it more clear via printing exactly what is happening
+
+Then, show the file CONDITIONS for deadlock to arise
+
+Show when deadlock occurs, and then attack each one of the conditions
+as a way of preventing deadlock
+
+Use the simple vector add as an example:
+
+vector.c: 
+- shows how vector_add(dst, src) can lead to deadlock
+  if one thread calls vector_add(a,b) and the other vector_add(b,a)
+
+Solutions:
+
+For each of these, raise the condition that you wish to focus on,
+and then stare at vector.c with them and see if they can suggest
+the solution.
+
+vector-avoid-hold-and-wait.c
+- Uses "mega" lock to make lock acquisition atomic
+  Nicely avoids "hold and wait" condition
+
+vector-global-order.c
+- Uses address of vector structs to order acquisition
+
+vector-try-wait.c
+- Uses sem_trywait() instead of wait to reset when
+  the acquisition would not work
+
+If there is extra time, you could talk about other solutions
+to the problem, as in the chapter.
+
+
+
+
+
+

@@ -1,0 +1,57 @@
+
+Notes in NOTES.pdf -- pretty much all blackboard. It is tough to finish this
+in one lecture, so it often spills into the next, which I often run as a
+review of all of virtualization, or at least of the virtualization of memory.
+
+Finally we get to answer the question: what happens if all this stuff (virtual
+memory pages, or even the page tables themselves!) don't fit in memory? We've
+been focused on mechanism -- now a chance to briefly turn to policy and see
+what to do there. 
+
+But first, some more mechanism! Describe swap space, talk a little about
+disks (much more on them later!), and a little about the notion of tracking
+whether pages are present or not. Logically I talk about this as a present
+bit, although lots of ways to actually realize such a notion in
+hardware. Easiest way to understand is to think that when a PTE has present=0,
+the rest of the PTE is used to identify (perhaps) where in swap the page
+actually resides.
+
+Then go through the (now quite detailed) control flow on a memory access. I
+always like to remind the students how often this happens, on EVERY MEMORY
+ACCESS! It is amazing how much complexity hides in something as simple as an
+instruction fetch or load from memory. Finally, you get down to the case where
+you fault on a page (PAGE NOT PRESENT, or PAGE MISS), and the page-fault
+handler runs, perhaps evicting a page, and then bringing the desired page in
+on demand. The eviction we call replacement, and the policy (which page to
+kick out?) is the focus of the second part of class. Nice to point out here
+that demand paging isn't the only way to do this (could prefetch, for
+example), and that also eviction likely starts to happen when free memory is
+low, not only when there is absolutely no memory left.
+
+The second part of the lecture focuses on developing some basic
+policies. Describe a number: optimal, random, fifo, lru. Do an example where
+you track through what happens with each (or better yet, have the class work
+through them and then discuss). You need a reference string that leads to
+something reasonable (you could use the homework simulator to generate one,
+or use the string from the book and NOTES.pdf). 
+
+Conclude that something like LRU might be nice (theme of using history to
+predict future, common in policies, is good to highlight), and then discuss
+the problems of how to actually implement LRU. A perfect LRU (with a timestamp
+per page) might be expensive to do; ask students what might be a way to
+approximate? Introduce new machinery of the use bit (or reference
+bit). Describe basic clock algorithm. Work through an example of rough
+operation. 
+
+Final discussion: thrashing. What if processes are simply using too much
+memory? Need to stop 1/more processes from running for a while. Linux
+approach: kill one process at random. More gentle approaches are just
+"admission control" based. True best solution (and advice for friends with
+slow computers): buy more memory!
+
+If time, divide class into halfs, and do the Belady Anomaly reference string
+with one half of the class simulating it on a FIFO with 3 slots and the other
+with a bigger memory of size 4. Should get the bizarre result of smaller
+memory with fewer misses. Final question to see if they really understand:
+could this happen for LRU?  (no, and discuss why, i.e., the stack property)
+

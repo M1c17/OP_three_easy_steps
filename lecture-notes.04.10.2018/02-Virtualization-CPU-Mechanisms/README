@@ -1,0 +1,41 @@
+OP
+Not much to add beyond the NOTES.pdf in this README.
+
+Pretty much treat this one as a straight blackboard lecture.
+
+Begin by describing what a process is (a running program), and try to get
+the students to remember or think of all the state that a running program
+can affect.
+
+Then focus on the basic of virtualizing the CPU
+- mechanisms (the focus for today)
+- policies (the focus for next time)
+
+The basic mechanism here, of course, is something we call "Limited Direct
+Execution" (LDE). Introduce this organically, basically by assuming that the
+OS's job (in general) is not to do anything at all, and just let the process
+run (that's the "direct execution" part). But then, show some of the problems
+with that approach:
+
+- Restricted Ops
+- Switching from one process to another
+- Doing slow things like I/O
+
+Solving these problems leads to a more full understanding of what LDE
+actually is all about, and the protocols for how it works.
+
+The conceptual pieces that should come across include:
+
+- the notion of privileged state
+  make this clear: it is A BIT ON THE CPU THAT INDICATES WHAT YOU CAN DO!
+  walk them slowly through the process involved:
+  - setting things up correctly at boot time
+  - and then exactly what happens when a process is running
+    and wants to issue a system call
+    (ie., trap into the kernel)
+  this is the real heart of this lecture - use diagrams as need be
+
+- what a context switch is and how it works
+
+- why you need a blocked state as well as running/ready
+

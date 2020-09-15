@@ -1,0 +1,56 @@
+
+And now we start to get into the fun part of file systems, namely how they are
+implemented. We do this one entirely on the chalkboard, and slowly (and kind
+of organically) build up the pieces needed in what we call a "very simple file
+systems" (VSFS?).
+
+A little review of the file system API from last time is not a bad way to
+start: open(), read()/write(), close(), the notion of a file descriptor,
+the notion of a directory, etc.
+
+Then, a key point of emphasis: how to model file system operation in your
+mind? That is the goal, after all: to understand what the system is doing in
+response to the API calls above. 
+
+We describe this as two distinct pieces (borrowing a bit from database
+folks). Specifically, you can think of a file system as having:
+- On-disk structures
+- Access methods
+
+The former shows how files and directories are laid out on disk. We'll cover
+this first. The latter shows how to read and update those structures. We'll
+cover this second.
+
+The first part of the lecture develops some typical on-disk
+structures. Starting with a simple, everything has a fixed place on disk, file
+system, we develop a "data region", add an "inode table", point out that
+directories are just files (so an inode and some data blocks are all you need
+for that, too), add some "bitmaps" to track allocation status, and finally add
+a superblock to describe the file system image.
+
+We draw this entire thing on the board and leave it there the entire time;
+this gives the students a sense of what the on-disk structure really looks
+like. 
+
+After this point (and usually, after a break), we describe the "mkfs" process:
+how to initialize an empty file system, with a root directory (and nothing
+else) in it.
+
+With the "data structure" piece done, we now proceed to "access methods": how
+can we read/update this structure? Trace through a simple file creation, a
+write (or two), and then close the file. Which blocks are accessed on the disk
+during these API calls? The idea here is to get the students to start mapping
+API activity to underlying I/O, to get a good model of what is going on.
+
+With the basics in place, a few final questions remain:
+- How do you traverse long pathnames? (the costs of traversal)
+- How do you support large files? (inode design)
+- How do you avoid doing so many disk I/Os (caching and write buffering)
+
+Each of these you can answer by going through examples. By the end, students
+should have some idea of how a simple file system works, which sets us up
+nicely for the next lectures on more advanced file systems...
+
+
+
+

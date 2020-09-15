@@ -1,0 +1,170 @@
+
+This lecture just uses the graphical disk simulator
+(found here: http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Disk.tgz)
+to show how a simple disk works.
+
+The flow of lecture is as follows.
+
+First, use the board to remind people of how a hard drive works.
+Just the basics: seek, rotate, transfer.
+
+Emphasize what a scheduler should do: reduce the OVERHEAD part
+of this (seek + rotate). The transfer is just the cost of accessing
+the data, and thus must be paid.
+
+Then, use the first set of simulations to show the difference
+between lots of RANDOM I/Os and one SEQUENTIAL I/O.
+
+./example-rand.csh
+./example-seq.csh
+
+Draw attention to two factors:
+- The total time taken in each simulation
+  (SEQUENTIAL being much faster)
+- The seek + rotate 
+  (SEQUENTIAL having much less of this)
+- The sameness of TRANSFER
+  (each accesses just three blocks, and transfering
+  them takes the same amount of time)
+
+You should also use this one to present the layout of
+the simulation and all of the info it shows.
+
+Next up is track skew: we've promised the listener that a series
+of sequential requests should go quickly. But what if they cross
+a track boundary?
+
+./example-skew.csh
+
+Use this one to show the problem. Ask the class: what is going
+to happen here? (they should be able to figure out there is a problem)
+
+Then show the solution: the disk should change data layout.
+
+./example-skew-fixed.csh
+
+Question: How much skew should a disk introduce? They should be able
+to figure out IT DEPENDS (on how fast rotate is, and how fast seek is)
+
+Then, on to the topic of zoned disks. Introduce the basic concept (chalk):
+that disk's natural geometry means there is more room on the outside
+to fit in more data. Thus, the concept: ZONES. Each zone is a part
+of the disk where the number of sectors/track is the same; outer most
+zones have more sectors/track. 
+
+Then show the simulations. First one shows the time it takes to read
+from the outer tracks; second one the time on the inner tracks. You
+GET MORE BANDWIDTH on the outer tracks. Thus, zoning increases capacity
+but introduces non-uniformity in performance.
+
+./example-zones-outer.csh
+./example-zones-inner.csh
+
+Next up: why do we always do the requests in order? (FIFO)
+Show the problem of doing so: lots of going back and forth and generally
+taking longer. Point out how long the SEEK and ROTATE are.
+
+./example-sched-fifo.csh
+
+Then, show what a SEEK oriented scheduler might do. You can get the
+students to guess at different things here, but make sure to focus first
+on seek time.
+
+Then, introduce (chalkboard) the idea of shortest-seek-time-first (SSTF).
+Describe the general approach and then show the simulation.
+
+./example-sched-sstf.csh
+
+Emphasize (again) that the only change is to SEEK + ROTATE; TRANSFER is
+the same as you are still accessing the same blocks.
+
+Ask a question now: what are the performance problems with SSTF?
+They should say:
+- Starvation
+- Doesn't account for ROTATION
+
+Solve ROTATION first. Introduce on the board the idea that modern
+drives have significant rotate times and thus any scheduler should
+consider it. Thus, shortest-access-time-first (SATF) or sometimes
+called shortest-positioning-time-first (SPTF). 
+
+Now ask them: what should this scheduler do? (which ORDER should
+the requests be scheduled in)
+
+./example-rotate-question.csh
+
+This is a TRICK(!). Because they assume they know the seek time
+is reasonable, they will guess that they should switch tracks
+and grab the middle request. But this is wrong, and FUN in that 
+the SEEK is really slow. Agonizing! So yes, the right answer DEPENDS
+on the seek and rotate time.
+
+What they actually expected:
+
+./example-rotate-satf.csh
+
+Now tackle STARVATION. First, show the problem. Two requests,
+one to an inner track and one to an outer, but a persistent stream
+of new requests coming in to the outer track causes STARVATION
+of the inner track request.
+
+./example-starve.csh
+
+This mode of the simulator introduces a new request every time
+one is completed, and is configured here to show starvation of
+request 30.
+
+Then, introduce (chalkboard) the basics of how to deal with
+the problem: introduce a BOUND on how much work you will do 
+before servicing any particular request. The simulator does this
+with a BOUNDED SATF scheduler: it will only pick from N requests,
+and finish all of those, before moving on to the next so many 
+requests. N is thus the bound. You can also discuss other ways
+to bound scheduling, such as SCAN or C-SCAN, or just having 
+two queues and switching between them.
+
+./example-starve-bsatf.csh
+
+Finally, this leads to a general discussion of windows and how
+scheduling needs choices to do well. The more choices, the better,
+naturally!
+
+./example-window-size-3.csh
+./example-window-size-1.csh
+./example-window-size-all.csh
+
+Use these to show the performance of the workload with SATF and
+a window size of 3 first (does reasonably well -- look at the
+SEEK and ROTATE totals), then size 1 (what does this reduce to?
+FIFO!), and then ALL. See how much better ALL does.
+
+Now ask a final question: is ALL plus SATF the best you can do?
+Answer, no! This is just a GREEDY scheduler. Picks BEST of options
+and does it, then recomputes.
+
+Here is an example:
+
+./example-greedy-satf.csh
+
+Run it pointing out the decisions SATF makes, which look great
+at first but lead to some long rotations at the end. Then run
+with this specific order:
+
+./example-greedy-optimal.csh
+
+You can see how the optimal schedule pays some cost up front
+but ends up making it back with requests later in the schedule.
+
+Ask about how many possible schedules there are - a lot! - 
+and then discuss why such approaches generally aren't practical.
+
+Play around with "find.py" if you want to show how all the
+schedules are computed and show how many possibilities there
+really are. 
+
+
+
+
+
+
+

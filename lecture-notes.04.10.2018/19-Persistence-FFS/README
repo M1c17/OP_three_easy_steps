@@ -1,0 +1,72 @@
+
+Pretty straight-forward chalk talk today. Usually, some of the last lecture on
+"intro to file system implementation" is reviewed/finished, because frankly
+that lecture is too long. Once finished, segue into FFS background -- the FFS
+paper is your guide here.
+
+See NOTES.pdf for my short version of class prep notes, and NOTES-long.pdf
+for a slightly more written out form.
+
+Set up the problem: the original Unix file system performed poorly. Very
+poorly to begin with, and even WORSE over time. Many problems:
+- Inodes are far from their data
+- "Related" files are not near one another (necessarily)
+- The free list led to fragmentation
+
+Overall: Unix FS was not "disk aware"! It just treats disk like a memory.
+The result: poor performance.
+
+Along comes the Berkeley group, developing the Berkeley Software Distribution
+or BSD for short. Some history here is nice to fill in a bit.
+
+One part of BSD was FFS. Point out how changing the file system
+implementation, while keeping the same API, soon became a standard kind of
+thing in the Unix world, leading to a huge variety of interesting and
+different file systems.
+
+The FFS idea is simple: treat the disk like a disk!  (keep yelling this at the
+poor students, so they think it in their sleep)
+
+Disks have some basic properties:
+- Close together for related things is good
+- Sequential is >> random
+
+So how to realize in a file system implementation?
+
+- Chop the disk into groups ("cylinder" groups in oldspeak, now just "block" groups). 
+- Put "related" things in groups, unrelated things spread across groups
+
+Draw some nice pictures of the whole thing, and then a close up of one group,
+which should a lot like a little VSFS (from last lecture).
+
+Ask some questions: given an inode number, how can you calculate its disk
+address? (make sure they understand that this is easy, if you know the
+location and size of each piece of the inode table)
+
+Bitmaps instead of free lists: talk about why this is better, esp. as per
+fragmentation. 
+
+On top of this machinery, you need policy: talk about the basics, which
+basically are heuristics to put "related" stuff together
+- inodes near their data blocks
+- files in same directory near one another
+
+Thus, big decision is where to place a new directory (mkdir): policy that
+picks group with high # of free inodes and datablocks and low # of directories
+is one good example -- but there are many such policies.
+
+create file (creat()) is easier: just place inode in same group as parent
+directory, and subsequent data blocks in that group as well.
+
+Discuss the LARGE FILE exception. This is chance to do a little math;
+how much data can you put into each group and still expect to get XX% of peak
+sequential performance? (where XX = 90, for example) Show them how to
+calculate this.
+
+Finally, some random FFS fun: sym links, atomic rename, parameterized layout,
+sub-blocks for small file support, and long file names.
+
+Summary: REPEAT THE FFS MANTRA until the bell rings.
+
+
+

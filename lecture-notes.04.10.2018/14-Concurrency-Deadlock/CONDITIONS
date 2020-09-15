@@ -1,0 +1,25 @@
+
+FOUR CONDITIONS MUST HOLD FOR DEADLOCK TO OCCUR
+
+mutual exclusion: 
+  thread can hold resource and exclude others from it
+  when others request resource, they are delayed
+
+hold-and-wait pattern:
+  thread holds resource, then may wait for another
+
+no preemption of resource is allowed: 
+  once resource is held, not released 
+
+circular wait:
+  T1 -> T2 -> ... -> TN -> T1
+  (thread 1 waits for thread 2 waits for ... )
+  if represented as graph, there is a cycle
+
+  T1 -> T2 
+     <-
+
+Focus: Prevention
+  prevent: attack one condition and thus prevent deadlock
+
+

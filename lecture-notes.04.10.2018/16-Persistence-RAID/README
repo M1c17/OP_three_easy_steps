@@ -1,0 +1,61 @@
+
+The lecture starts by motivating RAID. Why do you need multi-disk disk
+systems? Students usually can figure this out: performance, capacity,
+reliability. These three axes form the core of evaluating each of the RAID
+levels in the rest of the lecture.
+
+Nice opportunity to make a point about transparency and deployability: by
+making RAIDs look like disks (i.e., speak the same low-level protocols), RAIDs
+were readily deployed as disk replacements, without changing anything else in
+the system. Led to rapid adoption.
+
+This naturally leads to a short discussion of the logical address space of the
+RAID. It just looks like a big disk! And thus the RAID must map requests to
+its address space down onto (disk,offset) below.
+
+One thing that is also important to set up early: the failure model. Assume
+that disks fail in a fail-stop manner: either they work or they don't (no
+in-between states), and when they stop working, it is easy to detect. This
+point will be brought up again when you discuss RAID-4 and recovery, or even
+why it is OK to read from just one copy in RAID-1. You could point out here
+that more advanced systems guard against the broader range of failures (e.g.,
+latent sector errors, corruption).
+
+Then the rest of lecture is just going through some RAID levels and analyzing
+their performance, effective capacity, and reliability. 
+
+RAID-0 (just striping) is a good starting point. Usually we follow the
+analysis in the book, assuming that each disk (in a group of N total disks)
+can deliver S MB/s of sequential bandwidth and R MB/s of random bandwidth. 
+RAID-0 delivers the full bandwidth of the system under either random or
+sequential, and delivers N * B blocks of effective capacity (assuming B blocks
+per disk), but cannot even withstand a single disk failure. Good opportunity
+here to discuss a few other basic things, such as chunk size, and how the RAID
+figures out how to map a request from its logical address space down onto the
+disks within.
+
+Things get more interesting with RAID-1 (mirroring). Show how to analyze the
+performance of writes: in particular, it is important to get students to
+understand that while the latency of a single mirrored write is roughly
+equivalent to that of a write to RAID-0, the total bandwidth of the mirrored
+system is half of the striped system. Try to get students to build a mental
+model of how many I/Os flow to such a system. 
+
+Then we usually move on to RAID-4, which requires a quick discussion of parity
+first. Give the basics of how parity can be used to recover from a single
+fault, assuming it is known which entity has failed (reference back to the
+failure model assumptions). Then show how an N disk RAID-4 works (assuming N-1
+data disks, 1 parity disk). Reads are easy to analyze performance-wise, so do
+those first; then sequential writes (also easy, as the system can do
+full-stripe writes); then finally the dreaded "small write problem" should be
+shown by analyzing the performance of a small (one block) random write. Make
+sure to analyze the latency of such a write (emphasizing what can be done in
+parallel during the subtractive-parity method) as well as the bandwidth of the
+system under many such writes (which is abysmal due to the RAID-4 parity disk
+bottleneck). 
+
+At this point, the students should be able to guess the solution of RAID-5:
+rotate the darn parity. One last quick analysis of this wraps up the (long)
+lecture!
+
+

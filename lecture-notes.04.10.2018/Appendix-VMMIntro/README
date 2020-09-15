@@ -1,0 +1,11 @@
+
+NOTES-long.pdf contains notes on the famous Disco paper; really this is what
+is taught in a graduate course on operating systems, but all the detail is in
+there. 
+
+NOTES.pdf contains more of what is actually taught in the undergraduate
+setting. 
+
+Both are getting a little long in the tooth as hardware support for
+virtualization becomes a reality -- something to fix in the near future...
+

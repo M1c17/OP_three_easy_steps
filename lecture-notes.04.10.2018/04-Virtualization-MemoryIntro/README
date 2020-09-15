@@ -1,0 +1,46 @@
+OP
+Again, the blackboard. See NOTES.pdf for details.
+
+Review the basics of what you've done so far: the first piece of the wonderful
+OS illusion, virtualization, with a focus thus far on the CPU. The students
+should now get some basic idea of how that all works!
+
+But a major question has been left unanswered: memory. 
+
+Describe how we're going to extend limited direct execution to include memory,
+and thus create a PRIVATE ADDRESS SPACE for every running program; we are
+going to VIRTUALIZE MEMORY!
+
+This is a big deal, and complex, so you should let the students know it is
+going to be challenging.
+
+Today we're just going to introduce some primitive mechanisms, i.e., dynamic
+relocation and segmentation, as two ways to do this. 
+
+The key in discussing each is to go slowly, do some examples, and draw some
+pictures of the virtual (how the process views the world) as well as the
+physical (how stuff really looks in physical memory). 
+
+The second page of the notes has some simple examples to use. I've found it
+useful to go through what happens wrt translation with a short instruction
+sequence (e.g., a load, add, store), showing all the VIRTUAL addresses that
+get generated and how they are translated by the hardware and OS in tandem.
+
+A lot of emphasis here should be on talking about the strengths and weaknesses
+of these basic approaches, how the OS is involved, what exact hardware is
+needed (making sure they understand base/bounds, for example, means that there
+are two extra registers on each CPU), how that h/w is privileged (a good thing
+to ask about), etc.
+
+Segmentation gets a little confusing once you talk about backwards-growing
+segments, so make sure to do a careful example there.
+
+The ending point has to be that segmentation gets you part of the way there,
+but still leaves us short of a truly general VM, which is a nice segue into
+next lecture on paging. 
+
+One last note: I used to spend more time on the build-up before paging, but as
+paging is the only thing worth talking about from a practical standpoint, one
+lecture on simple mechanisms and these historical approaches seemed like
+plenty. 
+

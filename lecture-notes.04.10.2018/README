@@ -1,0 +1,30 @@
+
+Each directory represents roughly one 75-minute lecture, as taught at the
+University of Wisconsin-Madison.
+
+Within each directory, you'll see:
+- README - some more details about the lecture
+- NOTES.pdf - a scan of my handwritten notes which I bring to class
+- Some code or other handouts, as needed
+
+(there are some directories with just NOTES.pdf in them; I have not yet added
+the other stuff to those, but will soon!)
+
+The general way I prepare for class is by looking over the last set of notes I
+wrote, and then writing out a new version of the same notes, making sure to
+think carefully through the examples I'll be using in class. I find that by
+doing this I generally (a) work out most kinks and (b) get enough of the
+lecture in my head so as to not really need the notes.
+
+Also a nice idea to review a bit from last time and connect it to the current
+lecture, to provide some continuity. Many of the notes include such reviewing
+hints, but probably not all. Helps also because sometimes students just don't
+get it, or weren't there, etc.
+
+Also, check back from time-to-time; I've been updating some of these and hence
+the notes, READMEs, and other pieces might change (hopefully, for the better).
+
+Hope these are helpful!
+
+- Remzi
+

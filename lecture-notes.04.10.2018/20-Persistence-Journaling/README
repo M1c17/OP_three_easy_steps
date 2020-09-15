@@ -1,0 +1,55 @@
+
+This is a straight on-the-board lecture.
+
+The most important starting point is to demonstrate the fundamental problem:
+when a system tries to change state of the underlying file system, it usually
+has to do so via a few separate updates to disk. For example, take the simple
+task of appending a block to an existing file: in a simple file system (like
+the "very simple file system" discussed previously), this would take at least
+three updates: to the data bitmap to allocate a new disk block, to the inode
+to add a new pointer (assuming it is a small file and indirect blocks are not
+needed), and the new data block itself. 
+
+Point out the basic assumptions one is making about the disk: it can reorder
+(and merge) requests, and that only requests of size 512 bytes are guaranteed
+to be atomic. 
+
+Point out the basic thing that is bad that can happen: a crash or power loss
+in the midst of an update sequence could lead to only some subset of requests
+being completed.
+
+It is then interesting to show all possible orderings of these writes, and ask
+the class what happens when only some of the writes reach the disk. Let the
+class figure out which the different cases are (e.g., pointer to garbage data,
+leaked space, inconsistent file-system metadata, etc.). Major point here is to
+make sure they understand what "file system consistency" is.
+
+Once they understand the problem, the rest of the lecture is about how to deal
+with it.
+
+Usually we only briefly cover fsck-like techniques, and point out how slow
+it is to have to look through the entire disk volume to fix up what is only
+likely to be a minor inconsistency.
+
+Then the focus is on journaling. Start with data journaling, where everything
+is written first to the journal before the checkpointing occurs. Introduce it
+slowly: the students may even be able to guess what the basic idea will be, if
+you point out how crazy it is that fsck has to look all over the disk to
+figure out what was in the midst of being updated. Why not persist something
+about the pending update before doing it, and thus make it easy to recover?
+
+Key points of emphasis include the careful protocol required to commit the
+transaction end block after the begin and contents, in order to ensure that
+disk re-ordering plus an untimely crash/power loss will still only result in 
+either an entire valid transaction on the disk, or an uncommitted transaction.
+
+Questions to ask: what happens if a crash occurs during the logging part of
+the protocol? (update is lost) What happens if the crash occurs after the
+update has been committed to the journal? (no problem, can recover)
+
+If there is time, it is fun to ask: what if we don't want to journal data
+blocks? (due to the effect on sequential write performance) Students usually
+can figure out what a "correct" protocol is, requiring data to be flushed
+before the transaction end block.
+
+

@@ -1,0 +1,65 @@
+
+Notes in the usual place (NOTES.pdf)
+
+Handout for class: threads-cv-producer-consumer.pdf (source code from
+omnigraffle is the .graffle file)
+
+First thing to do: review what CVs are, what the basic operations are (signal,
+wait). Leave this on the board so the students can see them throughout the
+entire class. 
+
+Then, review what the producer/consumer problem is, and why it comes up as a
+common way for threads/processes to interact all the time (e.g., in a threaded
+web server, in unix pipes, in the kernel itself between devices and waiting
+processes, etc.)
+
+Make sure the problem is really clear before getting into solutions at all.
+
+Then pass out the handout and work through the entire thing in detail.
+
+First thing to do is to explain the main program, and the queue get/put
+code. The main program just creates a producer thread and some consumer
+threads, but make sure to stress that in general you can have more than one
+producer too (the code leaves it at 1 as the termination case is easier to
+deal with). Also note that the queue get/put goes back to Dijkstra's original
+array-bsaed formulation - a more normal list-based implementation would be
+fine too (the only really important thing is that yes, it is a shared data
+structure, and that yes, races to update the queue can occur!)
+
+Then, let the class work through each "solution" (most of which are broken!),
+to see if they can reason about it.
+
+The last page of NOTES.pdf gives example traces that show how to go through
+these things. Before letting the class figure out why Solution 1 is broken,
+for example, it might be nice to set them up a bit by showing how the code
+actually works for the case of one producer and one consumer: show a trace of
+how the two threads might go back and forth. Then ask them to think about the
+case of 1 producer and 2 consumers, and see if they can reason it out.
+
+Then work on Solution 2 (also broken). NOTES.pdf again shows a nice trace of
+where this solution gets into trouble (this is always nice to have printed
+out, because it is easy to get a little detail wrong here and then have the
+on-blackboard trace go awry, alas!)
+
+Then have them stare at Solution 3 for a while. This is the working code! You
+can work through all the reasons that it seems to be "correct" without doing
+any sort of real proof of course. The code for this is found in "main-pc.c"
+and yes, it works!
+
+Note the transition from "if" to "while" loops gives a nice opportunity to
+talk about Mesa semantics (basically that being woken is more like a hint, and
+that one should ALWAYS re-check whether the condition you are looking for is
+true before proceeding). Contrast to Hoare semantics is a nice point here; if
+you could guarantee a transfer of lock ownership and control immediately to
+the waiting thread, it would then be a-ok to just start running without the
+recheck. As I often joke in class, if you remember one thing about CVs, it's
+ALWAYS RECHECK THE CONDITION WITH A WHILE LOOP!
+
+Finally, have them stare at Solution 4, which does not protect the critical
+section in the queue, and thus doesn't work. Hopefully they should be able to
+realize this as a problem on their own! One question a student asked recently
+was whether you could simply protect this part of the code with a different
+lock entirely; you can also have the students think this through, as it is a
+little tricky. 
+
+

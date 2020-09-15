@@ -1,0 +1,54 @@
+
+As usual, NOTES.pdf is a kind of guide, but really the CLASS-GUIDE file gives
+you everything you want, and the code samples are what you should run.
+
+This is a laptop mostly class.
+
+First things first: pass the semaphore handout out (sem-def.c or slightly
+nicer sem-def.pdf), and explain what a semaphore is on the board, something
+you will leave up there the entire time. Some motivation for this might be
+included: really it was the first primitive Dijkstra thought of, first as only
+a lock, then generalized to also behave like a condition variable. 
+
+Once you feel people understand the definition, you basically just revisit old
+problems to give them a feel for how to use semaphores. The first is as a lock
+(sem-lock.c). Show them the code, but make them figure out how to use wait,
+post, and init (the code shows where one might insert such code). The working
+solution is found in sem-lock-works.c, which you can either show or just add
+code during class to the non-working one (I find it useful to copy the initial
+file, sem-lock.c, to some other place such as main.c, and just add the
+solution to it on the fly, thus showing students you can still code a little!)
+This is a nice intro to semaphores as locks or binary semaphores.
+
+Next is to show the join problem again (sem-join.c and sem-join-works.c). Same
+thing here: show the first thing, let the students figure it out, and then
+discuss the solution. All via laptop again!
+
+Finally, make them write a semaphore "class" with condition variables, locks,
+etc. This should be straightforward but requires them to remember what a CV is
+(you might need to remind them). Show zemaphore.c and go from there. Why
+zemaphore? Well, one of us (Remzi), has always been partial to the letter 'Z'.
+
+If you're going through this at the right pace, probably all you'll be able to
+get through is the next example, rwlock.c. This I usually just show and have
+people stare at for a while, trying to figure out what it does (having this as
+a handout might also be nice). Once students have chewed on it for a while,
+walk them through how it works as a reader-writer lock. Of course, ask them
+about possible problems; someone will undoubtedly see the potential starvation
+problems. 
+
+For next time, you'll probably have to discuss the producer-consumer problem,
+this time using semaphores. There are a number of non-working versions (e.g.,
+sem-pc-signals.c which doesn't have proper mutual exclusion, sem-pc-locks.c
+which adds locks but can deadlock) and then the final working one in
+sem-pc-works.c. Walk them through each, with the students staring at and
+figuring out in class what is wrong with the broken ones. This is a good start
+to the next lecture on deadlock anyhow, as that is a short lecture usually.
+
+Some notable omissions: a lot of other classes/texts spend time on some
+"famous" problems like the dining philosophers. Personally I find these not
+super interesting, as these kinds of weird synchronization problems rarely
+arise in practice; add them in at your own discretion!
+
+
+

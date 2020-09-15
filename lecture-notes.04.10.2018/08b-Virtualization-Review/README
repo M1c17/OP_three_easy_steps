@@ -1,0 +1,19 @@
+
+Another review type thing to do, this time just a few concrete problems. First
+I let the class do them. Then I walk through them with the class. 
+
+The first problem is just a simple paging problem. 
+
+The second one is straight from the homework simulator for the multi-level
+page table. I often do this with them, tell them repeatedly to study it, and
+then have it as an exam question (of course, with a different,
+randomly-generated page table via the simulator). There is just something
+awesome about throwing a dump of memory at the students and seeing them make
+sense of it.
+
+Of course, one could always just assign these type of problems as homeworks,
+but sometimes doing such things together, in class, is nice.
+
+Sometimes I have covered the VAX/VMS chapter as a review, so I include
+some notes on that paper in here too (NOTES-vax.pdf).
+

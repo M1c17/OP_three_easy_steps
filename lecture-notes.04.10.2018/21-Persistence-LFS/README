@@ -1,0 +1,20 @@
+
+This is a pretty hard lecture for undergrads, so you
+have to build up a bit slowly.
+
+First, show the problem: even with "disk awareness"
+(like you find in FFS), you have a problem: lots of 
+small writes to non-contiguous locales.
+
+(you can use this part to review FFS a bit too,
+and how caching solves the problem for reads,
+but not so much for writes)
+
+Then, show the real goal: pure sequential access.
+For reads this is hard (because who knows what 
+the user will want to read next)
+For writes, it is possible, because you can
+shape write traffic - as long as you don't
+have to overwrite anything in place.
+
+And thus the key: 

@@ -1,0 +1,49 @@
+
+Standard blackboard lecture; see NOTES.pdf.
+
+One handout for class, usually done as a kind of "quiz" at the beginning of
+the lecture, to see if they're getting the base/bounds stuff. It is included
+as vm-relocation-review.txt or .pdf. Use if you want to see how perilously
+little the students have learned thus far!
+
+Review
+- What we're trying to do: VIRTUALIZE MEMORY, provide the great illusion
+  of your own private space to store stuff
+
+- Early approaches: base/bounds, segmentation
+  (now easy to summarize these quickly)
+
+  Ask about: when is hardware involved? when is OS involved?
+  (and then discuss this key to efficiency and protection)
+
+- Finally, what was wrong with the previous approaches?
+  (still not super flexible, external fragmentation, etc.)
+
+Introduce
+
+- Ancient technique of paging
+  Describe basic ideas, show some pictures of how AS, phys mem get chopped up
+
+- Do example (included, or some other simple one)
+  I always use really simple, small address spaces so everything is easy to
+  visualize (as well as draw on the board!)
+  Make this as detailed and slow as possible, really driving
+  home how it works
+
+  Show where page table is too(!) - in memory
+
+  Describe all the necessary terms here (page tables, PTEs, etc.)
+  Students need to get comfortable with these words, so
+    you have to keep saying them!  
+
+  Go through OS involvement
+  When does OS have to alloc pages? 
+  (new process, growing the heap, process exit, etc.)
+
+- End with BIG PROBLEMS:
+  paging too slow
+  page tables too big
+  This sets up the next TWO lectures nicely
+
+
+

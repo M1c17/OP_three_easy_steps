@@ -1,0 +1,14 @@
+
+Detailed notes in NOTES.pdf
+
+Somewhere in the past year or two I've been squeezing in a detailed review of
+how paging works, with lots of diagrams of what is going on in the CPU and
+memory, as a way to make sure the students understand and have a good
+visualization of what is going on. These notes represent the latest version of
+this review, which doesn't take a whole class, but does take a bit of time.
+
+One day perhaps this will turn into some kind of animation, but until then,
+you are the animator! Show them how much work it is just to execute an
+instruction (particularly a load or store!), and do all the math with the
+PTBR, etc.
+

@@ -1,0 +1,27 @@
+semaphores
+- sem-def.c         : how a semaphore works
+
+using semaphore as a lock (BINARY semaphore):
+- sem-lock.c        : code w/o locks
+- sem-lock-works.c  : code w/ semaphore as lock
+
+using semaphore to signal:
+- sem-join.c        : join problem again
+- sem-join-works.c  : join problem using semaphores
+
+writing your own semaphore  
+- zemaphore.h       : using cond vars + locks
+- sem-myown-lock.h  : using zemaphores as locks
+
+read/write lock (if time)
+- rwlock.c          : working thing
+
+[probably next time below here]
+
+bounded buffer problem:
+- sem-pc.c          : same old problem
+- sem-pc-signals.c  : uses signaling to solve problem
+- sem-pc-locks.c    : adds a lock too 
+- sem-pc-works.c    : actually works
+- sem-myown-pc.c    : using zemaphores in PC problem
+

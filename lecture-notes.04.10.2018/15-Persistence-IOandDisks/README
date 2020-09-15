@@ -1,0 +1,25 @@
+
+This lecture has two parts: the first in which we discuss the basics of
+devices, and the second in which we focus on hard disk drives.
+
+The first part is usually done quickly: while it is good to go over these
+things, it is somewhat straightforward and thus not super exciting
+material. Start with the generic device protocol, and then introduce things
+like interrupts and DMA as solutions to specific problems (i.e., that of
+excessive CPU overheads).
+
+The second part is more fun: how hard disks work. It is not a bad idea to show
+a short video of the internals of hard drive operation (many are available on
+youtube) to start out, and to provide a little bit of fresh air.
+
+Then describe the basics, including things like platters, spindles, etc. Make
+sure a little math is done to show how one can estimate performance for
+different workload types. For example, a great contrast is how much different
+in performance a stream of random, small I/Os perform compared to a sequential
+I/O (or large I/Os). 
+
+Finally, discuss disk scheduling. You likely won't have a ton of time to cover
+this, but the basics are easy. You can likely get students to figure out most
+of the basic strategies drives take, including consideration of both seek and
+even rotation in deciding what to schedule next.
+

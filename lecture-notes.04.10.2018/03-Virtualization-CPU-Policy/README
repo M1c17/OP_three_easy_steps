@@ -1,0 +1,54 @@
+Once again, an "all blackboard" lecture. See NOTES.pdf for details.
+
+** Aside **
+
+A note on "policy" lectures: one thing that always used to frustrate me was
+how much time OS classes spent on policy. Topics like which CPU scheduler to
+use, which VM replacement strategy makes sense, etc., all seemed like a major
+focus.
+
+Personally, I think that much of this is done because it is easy to talk about
+policy and its variants, whereas the real hard stuff, down in mechanism-land,
+is messier and harder to conceptualize. 
+
+Thus, we choose to focus mostly on mechanism and avoid too much fluffy policy
+discussion. Policy is easy to understand anyhow - you don't need to know very
+much about operating systems to grok why you want to serve the shortest job
+first! 
+
+** This Lecture **
+
+When we do cover policy, we do it briefly, and hence this lecture. It
+compresses two chapters, the intro to scheduling policies and the MLFQ, into
+one compressed 75-minute ride. 
+
+In the first part, you basically build up some basic terminology and intuition
+about scheduling. Start by reviewing (briefly) the mechanisms from last time,
+to form some continuity. You know, mechanisms vs. policies, limited direct
+execution, all that stuff. Then set up the big question: so if we can choose
+to run B and not A, why? How does the OS make a smart choice??
+
+The first half starts with basic assumptions (as listed in the notes), and
+then describe the first approach (FIFO). Use it to compute some run times, so
+students can understand the metric and how it works.
+
+Then start relaxing assumptions. Once each assumption is relaxed, students
+should be able to guess what a good policy is in order to deal with the
+possible problems that arise (e.g., getting stuck behind a slow job). Then
+build up to the ideas of SJF, STCF, and eventually RR for a new metric,
+response time. 
+
+At the end of this first part, you have some ideas of how to schedule, but all
+without any realism, e.g., SJF requires KNOWLEDGE OF THE FUTURE.
+
+This segues into the second part of the lecture, in which you build up towards
+a realistic scheduler, MLFQ. Use history to predict the future my friends!
+
+Describe the basic rules, and then show lots of examples of what happens when
+you have a single job arrive and run for a while, then a single long-running
+with a job arriving later, etc.
+
+The basic rule set leads to starvation and gaming -- the students should be
+able to figure out solutions to those.
+
+
